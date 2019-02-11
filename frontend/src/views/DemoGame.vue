@@ -37,7 +37,7 @@ export default {
         },
         async getPlayersData() {
             try {
-                const response = await axios.get("http://private-e7301-pygame.apiary-mock.com/players/");
+                const response = await axios.get("https://private-e7301-pygame.apiary-mock.com/players/");
                 this.players = response.data;
                 setTimeout(() => {
                     this.getPlayersData();
