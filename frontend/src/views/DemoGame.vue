@@ -2,7 +2,7 @@
     <div class="flex-container block-container">
         <div v-for="i in players.length + 5" :key="i">
             <block v-if="getPositionPlayer(i)" 
-                :player="getPositionPlayer(i)"
+                :player="getPositionPlayer(i).fields"
                 :number="i" />
             <block v-else :number="i" />
         </div>
@@ -20,24 +20,16 @@ export default {
     },
     data() {
         return {
-            players: [
-                { name: 'Raprap', position: 3, level: 'boxed', },
-                { name: 'Noel', position: 7, level: 'regular', },
-                { name: 'Gohan', position: 8, level: 'regular', },
-                { name: 'Robin', position: 9, level: 'regular', },
-                { name: 'Dana', position: 10, level: 'regular', },
-                { name: 'Adrian', position: 11, level: 'regular', },
-                { name: 'Rowen', position: 12, level: {color: 'blue'}, },
-            ],
+            players: [],
         }
     },
     methods: {
         getPositionPlayer(position) {
-            return this.players.find(x => x.position === position);
+            return this.players.find(x => x.fields.position === position);
         },
         async getPlayersData() {
             try {
-                const response = await axios.get("https://private-e7301-pygame.apiary-mock.com/players/");
+                const response = await axios.get("http://10.160.170.212:8000/game/api-players");
                 this.players = response.data;
                 setTimeout(() => {
                     this.getPlayersData();

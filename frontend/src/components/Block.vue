@@ -26,16 +26,17 @@ export default {
     },
     computed: {
         levelStyle() {
-            if (typeof this.player.level == 'object') {
-                return `
-                    ${this.style_bordered};
-                    background-color:${this.player.level.color};
-                `;
-            } else {
-                if (this.player.level == 'boxed') {
+            switch(this.player.level) {
+                case "CO":
+                    return `
+                        ${this.style_bordered};
+                        background-color:${this.player.color};
+                    `;
+                case "BX":
                     return this.style_bordered;
-                }
-                return "border: 5px #ced6e2 solid";
+                case "RE":
+                default:
+                    return "border: 5px #ced6e2 solid";
             }
         }
     }
