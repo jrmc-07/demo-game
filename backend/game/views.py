@@ -4,10 +4,13 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 
+from .models import Player
 
 class PlayerList(View):
     def get(self, request):
-        pass
+        players = Player.objects.all()
+        return HttpResponse(serialize("json", players),
+                            content_type="application/json")
 
 
     @csrf_exempt
