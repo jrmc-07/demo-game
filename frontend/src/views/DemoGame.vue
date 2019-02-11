@@ -21,13 +21,13 @@ export default {
     data() {
         return {
             players: [
-                { name: 'Raprap', position: 6, level: 'boxed', },
+                { name: 'Raprap', position: 3, level: 'boxed', },
                 { name: 'Noel', position: 7, level: 'regular', },
                 { name: 'Gohan', position: 8, level: 'regular', },
                 { name: 'Robin', position: 9, level: 'regular', },
                 { name: 'Dana', position: 10, level: 'regular', },
                 { name: 'Adrian', position: 11, level: 'regular', },
-                { name: 'Rowen', position: 12, level: 'regular', },
+                { name: 'Rowen', position: 12, level: {color: 'blue'}, },
             ],
         }
     },
@@ -39,9 +39,9 @@ export default {
             try {
                 const response = await axios.get("http://private-e7301-pygame.apiary-mock.com/players/");
                 this.players = response.data;
-                // setTimeout(() => {
-                //     this.getPlayersData();
-                // }, 500);
+                setTimeout(() => {
+                    this.getPlayersData();
+                }, 500);
             } catch(err) {
                 alert('Something went wrong while requesting for the data. ' + err.message );
                 // console.log( err.response.status );
