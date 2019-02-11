@@ -25,6 +25,7 @@ class PlayerList(View):
         return HttpResponse(status=400)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class PlayerDetails(View):
     def get(self, request, player_id):
         player = get_object_or_404(Player, pk=player_id)
@@ -32,6 +33,11 @@ class PlayerDetails(View):
                             content_type="application/json")
 
 
-    @csrf_exempt
-    def put(self, request):
-        pass
+    def put(self, request, player_id):
+        player = get_object_or_404(Player, pk=player_id)
+        form = PlayerForm(json.loads(request.body.decode('utf-8')),
+                          instance=player)
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=200)
+        return HttpResponse(status=400)
