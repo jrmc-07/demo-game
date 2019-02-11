@@ -1,6 +1,6 @@
 <template>
     <div class="block"> {{number}}
-        <div v-if="player" :class="stateClass">
+        <div v-if="player" :style="levelStyle">
             <p v-text="player.name"></p>
         </div>
     </div>
@@ -21,20 +21,21 @@ export default {
     },
     data() {
         return {
-            //
+            style_bordered: 'border: 1px black solid',
         }
     },
     computed: {
-        stateClass() {
-            switch(this.player.state) {
-                case 0:
-                    return;
-                case 1:
-                    return "boxed";
-                case 2:
-                    return "boxed colored";
-                default:
-                    return;
+        levelStyle() {
+            if (typeof this.player.level == 'object') {
+                return `
+                    ${this.style_bordered};
+                    background-color:${this.player.level.color};
+                `;
+            } else {
+                if (this.player.level == 'boxed') {
+                    return this.style_bordered;
+                }
+                return "";
             }
         }
     }
