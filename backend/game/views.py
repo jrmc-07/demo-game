@@ -25,6 +25,13 @@ class PlayerList(View):
         return HttpResponse(status=400)
 
 
+class PlayerDetails(View):
+    def get(self, request, player_id):
+        player = get_object_or_404(Player, pk=player_id)
+        return HttpResponse(serialize("json", [player,]),
+                            content_type="application/json")
+
+
     @csrf_exempt
     def put(self, request):
         pass
