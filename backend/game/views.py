@@ -1,11 +1,15 @@
+import json
 from django.core.serializers import serialize
 from django.shortcuts import HttpResponse, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.views.generic import View
 
+from .forms import PlayerForm
 from .models import Player
 
+
+@method_decorator(csrf_exempt, name='dispatch')
 class PlayerList(View):
     def get(self, request):
         players = Player.objects.all()
@@ -13,9 +17,12 @@ class PlayerList(View):
                             content_type="application/json")
 
 
-    @csrf_exempt
     def post(self, request):
-        pass
+        form = PlayerForm(json.loads(request.body.decode('utf-8')))
+        if form.is_valid():
+            form.save()
+            return HttpResponse(status=201)
+        return HttpResponse(status=400)
 
 
     @csrf_exempt
