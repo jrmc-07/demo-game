@@ -41,3 +41,9 @@ class PlayerDetails(View):
             form.save()
             return HttpResponse(status=200)
         return HttpResponse(status=400)
+
+
+    def delete(self, request, player_id):
+        player = get_object_or_404(Player, pk=player_id)
+        player.delete()
+        return HttpResponse(status=200)
