@@ -8,7 +8,7 @@ class Player(models.Model):
         ('CO', 'Colored'),
     )
     name = models.CharField(max_length=25)
-    position = models.IntegerField()
+    position = models.IntegerField(unique=True)
     color = models.CharField(max_length=25)
     level = models.CharField(
         max_length=2,
