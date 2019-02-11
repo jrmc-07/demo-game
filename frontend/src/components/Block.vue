@@ -21,7 +21,7 @@ export default {
     },
     data() {
         return {
-            style_bordered: 'border: 1px black solid',
+            style_bordered: 'border: 5px black solid',
         }
     },
     computed: {
@@ -35,7 +35,7 @@ export default {
                 if (this.player.level == 'boxed') {
                     return this.style_bordered;
                 }
-                return "";
+                return "border: 5px #ced6e2 solid";
             }
         }
     }
@@ -44,16 +44,9 @@ export default {
 
 <style scoped>
 .block {
-    height: 70px;
-    width: 70px;
-}
-.boxed {
-    border: 1px;
-    border-style: solid;
-    border-color: black;
-}
-.colored {
-    background-color: red;
+    height: 100px;
+    width: 150px;
+    margin: auto;
 }
 </style>
 
