@@ -2,7 +2,7 @@
     <div class="flex-container block-container">
         <div v-for="i in players.length + 5" :key="i">
             <block v-if="getPositionPlayer(i)" 
-                :player="getPositionPlayer(i).fields"
+                :player="getPositionPlayer(i)"
                 :number="i" />
             <block v-else :number="i" />
         </div>
@@ -25,11 +25,11 @@ export default {
     },
     methods: {
         getPositionPlayer(position) {
-            return this.players.find(x => x.fields.position === position);
+            return this.players.find(x => x.position === position);
         },
         async getPlayersData() {
             try {
-                const response = await axios.get("http://10.160.170.212:8000/game/api-players");
+                const response = await axios.get("http://10.160.170.131:8000/players/");
                 this.players = response.data;
                 setTimeout(() => {
                     this.getPlayersData();
