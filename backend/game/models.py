@@ -44,10 +44,10 @@ class Player(models.Model):
         - current level is BX
         """
         if level == 'BX':
-            assert self.level == 'RE'
+            assert self.level == 'RE', "Player isn't registered. Can't be boxed."
         elif level == 'CO':
-            assert self.level == 'BX'
+            assert self.level == 'BX', "Player isn't boxed. Can't be colored."
         elif level == 'RE':
-            assert self.level == 'BX'
+            assert self.level == 'BX', "Player isn't boxed. Can't be unboxed."
         else:
             raise AssertionError("Invalid level")
