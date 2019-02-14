@@ -28,7 +28,7 @@ class ColorField(serializers.CharField):
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ('id', 'name', 'created',)
+        fields = ('id', 'name', 'created', 'position_counter',)
 
 
 class PlayerSerializer(serializers.ModelSerializer):
