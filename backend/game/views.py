@@ -50,9 +50,16 @@ class PlayerViewSet(MultiSerializerViewSetMixin,
     def perform_create(self, serializer):
         with transaction.atomic():
             latest_game = Game.objects.last()
-            serializer.save(position=latest_game.position_counter, game=latest_game)
-            latest_game.position_counter += 1
-            latest_game.save()
+            # get position based on last person in the game
+            try:
+                last_position = (Player.objects
+                                 .filter(game=latest_game)
+                                 .order_by('position')
+                                 .last().position) + 1
+            except AttributeError:
+                # no players yet
+                last_position = latest_game.position_counter
+            serializer.save(position=last_position, game=latest_game)
 
     def update(self, request, pk=None):
         # print(request.data)
