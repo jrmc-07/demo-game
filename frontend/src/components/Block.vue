@@ -1,8 +1,12 @@
 <template>
-    <div class="block"> {{number}}
-        <div v-if="player" :style="levelStyle">
-            <p v-text="player.name"></p>
+    <div class="block"> 
+        <div v-if="player">
+            {{number}}
+            <div v-if="player" :style="levelStyle">
+                <p v-text="player.name"></p>
+            </div>
         </div>
+        <div v-else class="number"> {{number}} </div>
     </div>
 </template>
 
@@ -19,9 +23,9 @@ export default {
             required: true,
         }
     },
-    data() {
+    data: function() {
         return {
-            style_bordered: 'border: 5px black solid',
+            style_bordered: 'height: 100px; border: 5px black solid',
         }
     },
     computed: {
@@ -30,13 +34,13 @@ export default {
                 case "CO":
                     return `
                         ${this.style_bordered};
-                        background-color:${this.player.color};
+                        background-color: ${this.player.color};
                     `;
                 case "BX":
                     return this.style_bordered;
                 case "RE":
                 default:
-                    return "border: 5px #ced6e2 solid";
+                    return "border: 5px gray solid";
             }
         }
     }
@@ -45,9 +49,12 @@ export default {
 
 <style scoped>
 .block {
-    height: 100px;
-    width: 150px;
+    height: 150px;
+    width: 200px;
     margin: auto;
 }
+.number {
+    align-items: center;
+    margin-top: 75px;
+}
 </style>
-
