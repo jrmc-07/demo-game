@@ -55,13 +55,13 @@ class PlayerViewSet(MultiSerializerViewSetMixin,
             latest_game.save()
 
     def update(self, request, pk=None):
-        print(request.data)
-        request.data.pop('action', None)
-        print(request.data)
+        # print(request.data)
+        # request.data.pop('action', None)
+        # print(request.data)
         instance = self.get_object()
         serializer = self.get_serializer(instance, data=request.data, partial=False)
         serializer.is_valid(raise_exception=True)
-        # serializer.save()
+        serializer.save()
         return Response(serializer.data)
 
 

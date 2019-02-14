@@ -67,14 +67,21 @@ class PlayerUpdateSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         action = validated_data.pop('action').lower()
-        if action == 'box':
-            validated_data.pop('color', None)
-            instance.validate_for_level('BX')
-            validated_data['level'] = 'BX'
-        elif action == 'color':
-            pass
-        elif action == 'move':
-            validated_data.pop('color', None)
+        try:
+            if action == 'box':
+                validated_data.pop('color', None)
+                instance.validate_for_level('BX')
+                validated_data['level'] = 'BX'
+            elif action == 'color':
+                instance.validate_for_level('CO')
+                assert 'color' in validated_data, "Color must not be empty."
+                validated_data['level'] = 'CO'
+            elif action == 'move':
+                validated_data.pop('color', None)
+                assert instance.level == 'BX', "Player must be boxed to move."
+                instance.get_move_position_or_error()
+        except Exception as e:
+            raise serializers.ValidationError(str(e))
         # TODO elif action: unbox, uncolor
 
         return super().update(instance, validated_data)
