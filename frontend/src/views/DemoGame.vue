@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
     <div>
         <div class="title"> ``Insert Game Name Here`` </div>
         <div class="grid-container">
@@ -8,6 +9,14 @@
                     :number="i" />
                 <block v-else :number="i" />
             </div>
+=======
+    <div class="flex-container block-container">
+        <div v-for="i in players.length + 5" :key="i">
+            <block v-if="getPositionPlayer(i)" 
+                :player="getPositionPlayer(i)"
+                :number="i" />
+            <block v-else :number="i" />
+>>>>>>> e9f7dc7d3bcebf2866858b24897ee75e934fb709
         </div>
     </div>
 </template>
@@ -28,7 +37,7 @@ export default {
     },
     methods: {
         getPositionPlayer(position) {
-            return this.players.find(x => x.fields.position === position);
+            return this.players.find(x => x.position === position);
         },
         async getPlayersData() {
             const api = "http://127.0.0.1:8000/game/api-players";
@@ -42,6 +51,7 @@ export default {
                 this.getPlayersData();
             }, 500);
         },
+
     },
     mounted: function() {
         this.getPlayersData();
