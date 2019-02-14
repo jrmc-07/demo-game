@@ -1,3 +1,4 @@
+import traceback
 import webcolors
 from rest_framework import serializers
 
@@ -60,8 +61,8 @@ class PlayerUpdateSerializer(serializers.ModelSerializer):
         read_only_fields = ('position', 'level',)
 
     def validate_action(self, value):
-        if value.lower() not in {'box', 'color', 'move'}:
-            raise serializers.ValidationError("action must be 'box', 'color', or 'move'.")
+        if value.lower() not in {'box', 'color', 'move', 'kick', 'uncolor'}:
+            raise serializers.ValidationError("action must be 'box', 'color', 'kick', 'uncolor' or 'move'.")
         return value
 
 
@@ -72,10 +73,12 @@ class PlayerUpdateSerializer(serializers.ModelSerializer):
                 validated_data.pop('color', None)
                 instance.validate_for_level('BX')
                 validated_data['level'] = 'BX'
+
             elif action == 'color':
                 instance.validate_for_level('CO')
                 assert 'color' in validated_data, "Color must not be empty."
                 validated_data['level'] = 'CO'
+
             elif action == 'move':
                 validated_data.pop('color', None)
                 assert instance.level == 'BX', "Player must be boxed to move."
@@ -115,8 +118,42 @@ class PlayerUpdateSerializer(serializers.ModelSerializer):
                     # level is "CO"
                     game_board.discard(x)
                     candidate_idx = max(game_board)
+
+            elif action == 'kick':
+                validated_data.pop('color', None)
+                assert instance.level == 'BX', "Player must be boxed to kick."
+                # get game board
+                game_board = {x for x in range(1, instance.position)}
+                # remove not allowed spaces
+                colored_positions = (
+                    Player.objects
+                    .filter(game=instance.game,
+                            level="CO")
+                    .values_list('position', flat=True)
+                )
+                for pos in colored_positions:
+                    game_board.discard(pos)
+                # starting from the bottom
+                candidate_idx = max(game_board)
+                try:
+                    candidate_player = Player.objects.get(
+                        position=candidate_idx,
+                        game=instance.game)
+                except Player.DoesNotExist:
+                    # free space
+                    raise Exception("Can't kick empty space!")
+                assert candidate_player.level == "BX", "Can only kick boxed player!"
+                candidate_player.level = "RE"
+                candidate_player.save()
+
+            elif action == 'uncolor':
+                validated_data.pop('color', None)
+                assert instance.level == 'CO', "Player must be colored to uncolor."
+                validated_data['level'] = 'BX'
+
+        except ValueError:
+            raise serializers.ValidationError({"message": "Can't move any further!"})
         except Exception as e:
-            raise serializers.ValidationError(str(e))
-        # TODO elif action: unbox, uncolor
+            raise serializers.ValidationError({"message": str(e)})
 
         return super().update(instance, validated_data)
