@@ -1,22 +1,13 @@
 <template>
-<<<<<<< HEAD
     <div>
         <div class="title"> ``Insert Game Name Here`` </div>
         <div class="grid-container">
             <div v-for="i in players.length + 5" :key="i">
                 <block v-if="getPositionPlayer(i)"
-                    :player="getPositionPlayer(i).fields"
+                    :player="getPositionPlayer(i)"
                     :number="i" />
                 <block v-else :number="i" />
             </div>
-=======
-    <div class="flex-container block-container">
-        <div v-for="i in players.length + 5" :key="i">
-            <block v-if="getPositionPlayer(i)" 
-                :player="getPositionPlayer(i)"
-                :number="i" />
-            <block v-else :number="i" />
->>>>>>> e9f7dc7d3bcebf2866858b24897ee75e934fb709
         </div>
     </div>
 </template>
@@ -40,7 +31,7 @@ export default {
             return this.players.find(x => x.position === position);
         },
         async getPlayersData() {
-            const api = "http://127.0.0.1:8000/game/api-players";
+            const api = "http://127.0.0.1:8000/game/players/";
             await axios.get(api)
                 .then((response) => {
                     this.players = response.data;
@@ -68,6 +59,7 @@ export default {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     border: 5px #000000 solid;
+    border-radius: 25px;
     width: 90%;
     margin: auto;
     align-items: center;

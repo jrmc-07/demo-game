@@ -51,6 +51,7 @@ export default {
 .block {
     height: 150px;
     width: 200px;
+    border-radius: 25px;
     margin: auto;
 }
 .number {
