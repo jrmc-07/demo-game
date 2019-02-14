@@ -51,3 +51,4 @@ class Player(models.Model):
             assert self.level == 'BX', "Player isn't boxed. Can't be unboxed."
         else:
             raise AssertionError("Invalid level")
+

@@ -79,7 +79,42 @@ class PlayerUpdateSerializer(serializers.ModelSerializer):
             elif action == 'move':
                 validated_data.pop('color', None)
                 assert instance.level == 'BX', "Player must be boxed to move."
-                instance.get_move_position_or_error()
+                assert instance.position > 1, "Can't move any further!"
+                # get game board
+                game_board = {x for x in range(1, instance.position)}
+                # remove not allowed spaces
+                colored_positions = (
+                    Player.objects
+                    .filter(game=instance.game,
+                            level="CO")
+                    .values_list('position', flat=True)
+                )
+                for pos in colored_positions:
+                    game_board.discard(pos)
+                # starting from the bottom
+                candidate_idx = max(game_board)
+                while 1:
+                    try:
+                        candidate_player = Player.objects.get(
+                            position=candidate_idx,
+                            game=instance.game)
+                    except Player.DoesNotExist:
+                        # free space
+                        validated_data['position'] = candidate_idx
+                        break
+                    if candidate_player.level == "RE":
+                        # swap
+                        candidate_player.position = instance.position
+                        instance.position = -1
+                        instance.save()
+                        candidate_player.save()
+                        validated_data['position'] = candidate_idx
+                        break
+                    elif candidate_player.level == "BX":
+                        raise Exception("Kick before moving.")
+                    # level is "CO"
+                    game_board.discard(x)
+                    candidate_idx = max(game_board)
         except Exception as e:
             raise serializers.ValidationError(str(e))
         # TODO elif action: unbox, uncolor
