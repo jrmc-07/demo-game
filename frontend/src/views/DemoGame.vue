@@ -1,10 +1,13 @@
 <template>
-    <div class="flex-container block-container">
-        <div v-for="i in players.length + 5" :key="i">
-            <block v-if="getPositionPlayer(i)" 
-                :player="getPositionPlayer(i)"
-                :number="i" />
-            <block v-else :number="i" />
+    <div style="background-image: ../assets/wallpaper.gif">
+        <div class="title"> CoP: Python Demo Game </div>
+        <div class="grid-container">
+            <div v-for="i in players.length + 5" :key="i">
+                <block v-if="getPositionPlayer(i)"
+                    :player="getPositionPlayer(i)"
+                    :number="i" />
+                <block v-else :number="i" />
+            </div>
         </div>
     </div>
 </template>
@@ -18,7 +21,7 @@ export default {
     components: {
         Block,
     },
-    data() {
+    data: function() {
         return {
             players: [],
         }
@@ -28,34 +31,37 @@ export default {
             return this.players.find(x => x.position === position);
         },
         async getPlayersData() {
-            try {
-                const response = await axios.get("http://10.160.170.131:8000/players/");
-                this.players = response.data;
-                setTimeout(() => {
-                    this.getPlayersData();
-                }, 500);
-            } catch(err) {
-                alert('Something went wrong while requesting for the data. ' + err.message );
-                // console.log( err.response.status );
-            }
-        }
+            const api = "http://127.0.0.1:8000/players/";
+            await axios.get(api)
+                .then((response) => {
+                    this.players = response.data;
+                }).catch((err) => {
+                    alert('Something went wrong while requesting for the data. ' + err.message );
+                });
+            setTimeout(() => {
+                this.getPlayersData();
+            }, 500);
+        },
+
     },
-    mounted() {
+    mounted: function() {
         this.getPlayersData();
     }
 }
 </script>
 
 <style scoped>
-.flex-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
+.title {
+    font-size: 35px;
 }
-.block-container {
-    width: 70%;
+
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border: 5px #000000 solid;
+    border-radius: 25px;
+    width: 90%;
     margin: auto;
+    align-items: center;
 }
 </style>
