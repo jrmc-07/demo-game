@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <div class="title"> ``Insert Game Name Here`` </div>
+    <div style="background-image: ../assets/wallpaper.gif">
+        <div class="title"> CoP: Python Demo Game </div>
         <div class="grid-container">
             <div v-for="i in players.length + 5" :key="i">
                 <block v-if="getPositionPlayer(i)"
@@ -31,7 +31,7 @@ export default {
             return this.players.find(x => x.position === position);
         },
         async getPlayersData() {
-            const api = "http://127.0.0.1:8000/game/players/";
+            const api = "http://127.0.0.1:8000/players/";
             await axios.get(api)
                 .then((response) => {
                     this.players = response.data;

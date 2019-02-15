@@ -14,7 +14,7 @@ class Player(models.Model):
         ('BX', 'Boxed'),
         ('CO', 'Colored'),
     )
-    game = models.ForeignKey('Game', on_delete=models.CASCADE)
+    game = models.ForeignKey('Game', null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=25)
     position = models.IntegerField()
     color = models.CharField(max_length=25, default="#ffffff")

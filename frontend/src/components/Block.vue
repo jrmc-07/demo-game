@@ -25,7 +25,7 @@ export default {
     },
     data: function() {
         return {
-            style_bordered: 'height: 100px; border: 5px black solid',
+            style_bordered: 'height: 100px; border: 5px black solid; border-radius: 25px;',
         }
     },
     computed: {
@@ -40,7 +40,7 @@ export default {
                     return this.style_bordered;
                 case "RE":
                 default:
-                    return "border: 5px gray solid";
+                    return `height: 100px; border: 5px gray solid; border-radius: 25px;`;
             }
         }
     }
