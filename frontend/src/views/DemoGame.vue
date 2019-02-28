@@ -1,11 +1,11 @@
 <template>
-    <div style="background-image: ../assets/wallpaper.gif">
-        <div class="title"> CoP: Python Demo Game </div>
-        <div class="grid-container">
+    <div class="nes-container is-dark full-container">
+        <div class="nes-text title"> CoP: RankUp! </div>
+        <div class="nes-container is-dark is-rounded">
             <div v-for="i in players.length + 5" :key="i">
                 <block v-if="getPositionPlayer(i)"
-                    :player="getPositionPlayer(i)"
-                    :number="i" />
+                       :player="getPositionPlayer(i)"
+                       :number="i" />
                 <block v-else :number="i" />
             </div>
         </div>
@@ -52,16 +52,16 @@ export default {
 
 <style scoped>
 .title {
-    font-size: 35px;
+    font-size: 40px;
 }
 
-.grid-container {
+.full-container {
+    height: 100vh;
+}
+
+.nes-container.is-dark.is-rounded {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    border: 5px #000000 solid;
-    border-radius: 25px;
-    width: 90%;
-    margin: auto;
     align-items: center;
 }
 </style>
