@@ -1,29 +1,24 @@
 <template>
-  <div id="app">
-    <demo-game />
-  </div>
+    <div id="app">
+        <demo-game />
+    </div>
 </template>
 
 <script>
-// import HelloWorld from './views/HelloWorld.vue'
 import DemoGame from './views/DemoGame.vue'
 
 export default {
-  name: 'app',
-  components: {
-    // HelloWorld,
-    DemoGame,
-  }
+    name: 'app',
+    components: {
+        DemoGame,
+    }
 }
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    text-align: center;
 }
 </style>

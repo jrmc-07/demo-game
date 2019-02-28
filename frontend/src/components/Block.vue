@@ -1,12 +1,12 @@
 <template>
-    <div class="block"> 
+    <div>
         <div v-if="player">
             {{number}}
-            <div v-if="player" :style="levelStyle">
-                <p v-text="player.name"></p>
+            <div class="nes-container is-dark" v-if="player" :style="levelStyle">
+                <p class="nes-text" v-text="player.name"></p>
             </div>
         </div>
-        <div v-else class="number"> {{number}} </div>
+        <div v-else class="nes-text"> {{number}} </div>
     </div>
 </template>
 
@@ -25,7 +25,7 @@ export default {
     },
     data: function() {
         return {
-            style_bordered: 'height: 100px; border: 5px black solid; border-radius: 25px;',
+            style_bordered: 'height: 100px;',
         }
     },
     computed: {
@@ -40,7 +40,7 @@ export default {
                     return this.style_bordered;
                 case "RE":
                 default:
-                    return `height: 100px; border: 5px gray solid; border-radius: 25px;`;
+                    return `height: 100px;`;
             }
         }
     }
@@ -48,14 +48,4 @@ export default {
 </script>
 
 <style scoped>
-.block {
-    height: 150px;
-    width: 200px;
-    border-radius: 25px;
-    margin: auto;
-}
-.number {
-    align-items: center;
-    margin-top: 75px;
-}
 </style>
