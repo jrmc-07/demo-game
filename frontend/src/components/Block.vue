@@ -35,9 +35,15 @@ export default {
                     return `
                         ${this.style_bordered};
                         background-color: ${this.player.color};
+                        border-style: solid;
+                        border-width: 4px;
                     `;
                 case "BX":
-                    return this.style_bordered;
+                    return `
+                    ${this.style_bordered};
+                    border-style: solid;
+                    border-width: 4px;
+                `
                 case "RE":
                 default:
                     return `height: 100px;`;
@@ -48,4 +54,7 @@ export default {
 </script>
 
 <style scoped>
+.nes-container.is-dark {
+    border-width: 0px;
+}
 </style>
