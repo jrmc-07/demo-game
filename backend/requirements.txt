@@ -2,5 +2,5 @@ Django==2.1.6
 django-cors-headers==2.4.0
 pytz==2018.9
 waitress==1.2.1
-djangorestframework==3.9.1
+djangorestframework==3.11.2
 webcolors==1.8.1
